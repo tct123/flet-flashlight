@@ -5,7 +5,7 @@ description = ""
 readme = "README.md"
 requires-python = ">=3.8"
 dependencies = [
-  "flet-audio-recorder @ git+https://github.com/flet-dev/flet-flashlight.git",
+  "flet-flashlight @ git+https://github.com/flet-dev/flet-flashlight.git",
   "flet>=0.25.2",
 ]
 
