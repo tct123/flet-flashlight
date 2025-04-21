@@ -1,10 +1,14 @@
-from typing import Any, Optional
+import asyncio
 
-from flet.core.control import Control
-from flet.core.ref import Ref
+import flet as ft
+
+__all__ = ["Flashlight"]
+
+from .exceptions import *
 
 
-class Flashlight(Control):
+@ft.control("Flashlight")
+class Flashlight(ft.Service):
     """
     A control to use FlashLight. Works on iOS and Android. Based on torch_light Flutter widget (https://pub.dev/packages/torch_light).
 
@@ -28,58 +32,55 @@ class Flashlight(Control):
 
     """
 
-    def __init__(
-        self,
-        ref: Optional[Ref] = None,
-        data: Any = None,
-    ):
-        Control.__init__(
-            self,
-            ref=ref,
-            data=data,
-        )
+    turned_on = False
+    on_error: ft.OptionalControlEventCallable = None
 
-        self.turned_on = False
-
-    def _get_control_name(self):
-        return "flashlight"
-
-    def turn_on(self, wait_timeout: Optional[int] = 5) -> bool:
-        sr = self.invoke_method("on", wait_for_result=True, wait_timeout=wait_timeout)
-
-        if int(sr) == 1:
+    async def turn_on_async(self):
+        r = await self._invoke_method_async("on")
+        if r is True:
             self.turned_on = True
-        return self.turned_on
+        else:  # error occured
+            error_type = r.get("error_type")
+            error_msg = r.get("error_msg")
+            if error_type == "EnableTorchExistentUserException":
+                raise FlashlightEnableExistentUserException(error_msg)
+            elif error_type == "EnableTorchNotAvailableException":
+                raise FlashlightEnableNotAvailableException(error_msg)
+            else:
+                raise FlashlightEnableException(error_msg)
 
-    async def turn_on_async(self, wait_timeout: Optional[int] = 5) -> bool:
-        sr = await self.invoke_method_async(
-            "on", wait_for_result=True, wait_timeout=wait_timeout
-        )
-        if int(sr) == 1:
-            self.turned_on = True
-        return self.turned_on
+    def turn_on(self):
+        asyncio.create_task(self.turn_on_async())
 
-    def turn_off(self, wait_timeout: Optional[int] = 5) -> bool:
-        sr = self.invoke_method("off", wait_for_result=True, wait_timeout=wait_timeout)
-
-        if int(sr) == 1:
+    async def turn_off_async(self):
+        r = await self._invoke_method_async("off")
+        if r is True:
             self.turned_on = False
-        return self.turned_on
+        else:  # error occured
+            error_type = r.get("error_type")
+            error_msg = r.get("error_msg")
+            if error_type == "DisableTorchExistentUserException":
+                raise FlashlightDisableExistentUserException(error_msg)
+            elif error_type == "DisableTorchNotAvailableException":
+                raise FlashlightDisableNotAvailableException(error_msg)
+            else:
+                raise FlashlightDisableException(error_msg)
 
-    async def turn_off_async(self, wait_timeout: Optional[int] = 5) -> bool:
-        sr = await self.invoke_method_async(
-            "off", wait_for_result=True, wait_timeout=wait_timeout
-        )
-        if int(sr) == 1:
-            self.turned_on = False
-        return self.turned_on
+    def turn_off(self):
+        asyncio.create_task(self.turn_off_async())
 
-    def toggle(self, wait_timeout: Optional[int] = 5) -> bool:
+    async def toggle_async(self):
         if self.turned_on:
-            return self.turn_off(wait_timeout)
-        return self.turn_on(wait_timeout)
+            await self.turn_off_async()
+        await self.turn_on_async()
 
-    async def toggle_async(self, wait_timeout: Optional[int] = 5) -> bool:
-        if self.turned_on:
-            return await self.turn_off_async(wait_timeout)
-        return await self.turn_on_async(wait_timeout)
+    def toggle(self):
+        asyncio.create_task(self.toggle_async())
+
+    async def is_available_async(self):
+        r = await self._invoke_method_async("is_available")
+        if r is bool:
+            return r
+        else:  # error occured
+            error_msg = r.get("error_msg")
+            raise FlashlightException(error_msg)
