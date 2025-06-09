@@ -75,7 +75,7 @@ extra:
 nav:
   - Getting Started: index.md
   - API Reference:
-      - Lottie: lottie.md
+      - Flashlight: flashlight.md
   - Changelog: changelog.md
   - License: license.md
 
