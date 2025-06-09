@@ -76,6 +76,7 @@ nav:
   - Getting Started: index.md
   - API Reference:
       - Flashlight: flashlight.md
+      - Exceptions: exceptions.md
   - Changelog: changelog.md
   - License: license.md
 
