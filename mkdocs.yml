@@ -76,7 +76,14 @@ nav:
   - Getting Started: index.md
   - API Reference:
       - Flashlight: flashlight.md
-      - Exceptions: exceptions.md
+      - Exceptions:
+          - FlashlightDisableException: exceptions/flashlight_disable_exception.md
+          - FlashlightDisableExistentUserException: exceptions/flashlight_disable_existent_user_exception.md
+          - FlashlightDisableNotAvailableException: exceptions/flashlight_disable_not_available_exception.md
+          - FlashlightEnableExistentUserException: exceptions/flashlight_enable_existent_user_exception.md
+          - FlashlightEnableException: exceptions/flashlight_enable_exception.md
+          - FlashlightEnableNotAvailableException: exceptions/flashlight_enable_not_available_exception.md
+          - FlashlightException: exceptions/flashlight_exception.md
   - Changelog: changelog.md
   - License: license.md
 
