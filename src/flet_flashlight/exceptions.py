@@ -1,10 +1,10 @@
 class FlashlightException(Exception):
-    """Base class for all Flashlight errors."""
+    """Base class for all Flashlight exceptions."""
 
 
 class FlashlightEnableExistentUserException(FlashlightException):
     """
-    Exception thrown when an attempt was made to turn on the torch
+    An attempt was made to turn on the torch
     but it was detected that the camera was being used by another process.
     This means that the torch cannot be controlled.
     """
@@ -12,20 +12,20 @@ class FlashlightEnableExistentUserException(FlashlightException):
 
 class FlashlightEnableNotAvailableException(FlashlightException):
     """
-    Exception thrown when an attempt was made to turn on the torch
+    An attempt was made to turn on the torch
     but it was detected that the device does not have one equipped.
     """
 
 
 class FlashlightEnableException(FlashlightException):
     """
-    Exception thrown when an error occurred while trying to turn on the device torch.
+    An error occurred while trying to turn on the device torch.
     """
 
 
 class FlashlightDisableExistentUserException(FlashlightException):
     """
-    Exception thrown when an attempt was made to turn off the torch
+    An attempt was made to turn off the torch
     but it was detected that the camera was being used by another process.
     This means that the torch cannot be controlled.
     """
@@ -33,12 +33,12 @@ class FlashlightDisableExistentUserException(FlashlightException):
 
 class FlashlightDisableNotAvailableException(FlashlightException):
     """
-    Exception thrown when an attempt was made to turn off the torch
+    An attempt was made to turn off the torch,
     but it was detected that the device does not have one equipped.
     """
 
 
 class FlashlightDisableException(FlashlightException):
     """
-    Exception thrown when an error occurred while trying to turn off the device torch.
+    An error occurred while trying to turn off the device torch.
     """
