@@ -21,7 +21,7 @@ class Flashlight(ft.Service):
     Whether the flashlight is currently turned on.
     """
 
-    on_error: ft.OptionalControlEventCallable = None
+    on_error: ft.OptionalControlEventHandler["Flashlight"] = None
     """
     Fires when an error occurs.
     
