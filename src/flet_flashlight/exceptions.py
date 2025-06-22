@@ -1,5 +1,15 @@
 class FlashlightException(Exception):
-    """Base class for all Flashlight exceptions."""
+    """
+    Base class for all [`Flashlight`][(p).] exceptions.
+
+    See these subclasses:
+    - [`FlashlightEnableExistentUserException`][(p).]
+    - [`FlashlightEnableNotAvailableException`][(p).]
+    - [`FlashlightEnableException`][(p).]
+    - [`FlashlightDisableExistentUserException`][(p).]
+    - [`FlashlightDisableNotAvailableException`][(p).]
+    - [`FlashlightDisableException`][(p).]
+    """
 
 
 class FlashlightEnableExistentUserException(FlashlightException):
