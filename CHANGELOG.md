@@ -13,13 +13,13 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 - `Flashlight` control new properties: `on`, `on_error`
 - `Flashlight` control new methods: `is_available_async`
 - New exception classes:
-  - `FlashlightException`
-  - `FlashlightEnableExistentUserException`
-  - `FlashlightEnableNotAvailableException`
-  - `FlashlightEnableException`
-  - `FlashlightDisableExistentUserException`
-  - `FlashlightDisableNotAvailableException`
-  - `FlashlightDisableException`
+    - `FlashlightException`
+    - `FlashlightEnableExistentUserException`
+    - `FlashlightEnableNotAvailableException`
+    - `FlashlightEnableException`
+    - `FlashlightDisableExistentUserException`
+    - `FlashlightDisableNotAvailableException`
+    - `FlashlightDisableException`
 
 ### Changed
 
