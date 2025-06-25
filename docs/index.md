@@ -4,7 +4,7 @@
 [![downloads](https://static.pepy.tech/badge/flet-flashlight/month)](https://pepy.tech/project/flet-flashlight)
 [![license](https://img.shields.io/github/license/flet-dev/flet-flashlight.svg)](https://github.com/flet-dev/flet-flashlight/blob/main/LICENSE)
 
-A Flet extension to manage the device torch/flashlight.
+A [Flet](https://flet.dev) extension to manage the device torch/flashlight.
 
 It is based on the [flashlight](https://pub.dev/packages/flashlight) Flutter package.
 
