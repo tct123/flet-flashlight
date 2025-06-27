@@ -1,85 +1,100 @@
-from typing import Any, Optional
+import asyncio
 
-from flet.core.control import Control
-from flet.core.ref import Ref
+import flet as ft
+
+from .exceptions import *
+
+__all__ = ["Flashlight"]
 
 
-class Flashlight(Control):
+@ft.control("Flashlight")
+class Flashlight(ft.Service):
     """
     A control to use FlashLight. Works on iOS and Android. Based on torch_light Flutter widget (https://pub.dev/packages/torch_light).
 
-    Flashlight control is non-visual and should be added to `page.overlay` list.
-
-    Example:
-    ```
-    import flet as ft
-
-    import flet_flashlight as ffl
-
-    def main(page: ft.Page):
-        flashLight = ffl.Flashlight()
-        page.overlay.append(flashLight)
-        page.add(
-            ft.TextButton("toggle", on_click: lambda _: flashlight.toggle())
-        )
-
-    ft.app(target=main)
-    ```
-
+    Note:
+        This control is a non-visual and should be added to `page.services` list before it can be used.
     """
 
-    def __init__(
-        self,
-        ref: Optional[Ref] = None,
-        data: Any = None,
-    ):
-        Control.__init__(
-            self,
-            ref=ref,
-            data=data,
-        )
+    on = False
+    """
+    Whether the flashlight is currently turned on.
+    """
 
-        self.turned_on = False
+    on_error: ft.OptionalControlEventHandler["Flashlight"] = None
+    """
+    Fires when an error occurs.
+    
+    The `data` property of the event handler argument contains information on the error.
+    """
 
-    def _get_control_name(self):
-        return "flashlight"
+    async def turn_on_async(self):
+        """
+        Turns the flashlight on.
+        """
+        r = await self._invoke_method_async("on")
+        if r is True:
+            self.on = True
+        else:  # error occured
+            error_type = r.get("error_type")
+            error_msg = r.get("error_msg")
+            if error_type == "EnableTorchExistentUserException":
+                raise FlashlightEnableExistentUserException(error_msg)
+            elif error_type == "EnableTorchNotAvailableException":
+                raise FlashlightEnableNotAvailableException(error_msg)
+            else:
+                raise FlashlightEnableException(error_msg)
 
-    def turn_on(self, wait_timeout: Optional[int] = 5) -> bool:
-        sr = self.invoke_method("on", wait_for_result=True, wait_timeout=wait_timeout)
+    def turn_on(self):
+        """
+        Turns the flashlight on.
+        """
+        asyncio.create_task(self.turn_on_async())
 
-        if int(sr) == 1:
-            self.turned_on = True
-        return self.turned_on
+    async def turn_off_async(self):
+        """
+        Turns the flashlight off.
+        """
+        r = await self._invoke_method_async("off")
+        if r is True:
+            self.on = False
+        else:  # error occured
+            error_type = r.get("error_type")
+            error_msg = r.get("error_msg")
+            if error_type == "DisableTorchExistentUserException":
+                raise FlashlightDisableExistentUserException(error_msg)
+            elif error_type == "DisableTorchNotAvailableException":
+                raise FlashlightDisableNotAvailableException(error_msg)
+            else:
+                raise FlashlightDisableException(error_msg)
 
-    async def turn_on_async(self, wait_timeout: Optional[int] = 5) -> bool:
-        sr = await self.invoke_method_async(
-            "on", wait_for_result=True, wait_timeout=wait_timeout
-        )
-        if int(sr) == 1:
-            self.turned_on = True
-        return self.turned_on
+    def turn_off(self):
+        """
+        Turns the flashlight off.
+        """
+        asyncio.create_task(self.turn_off_async())
 
-    def turn_off(self, wait_timeout: Optional[int] = 5) -> bool:
-        sr = self.invoke_method("off", wait_for_result=True, wait_timeout=wait_timeout)
+    async def toggle_async(self):
+        """
+        Toggles the flashlight on and off.
+        """
+        if self.on:
+            await self.turn_off_async()
+        await self.turn_on_async()
 
-        if int(sr) == 1:
-            self.turned_on = False
-        return self.turned_on
+    def toggle(self):
+        """
+        Toggles the flashlight on and off.
+        """
+        asyncio.create_task(self.toggle_async())
 
-    async def turn_off_async(self, wait_timeout: Optional[int] = 5) -> bool:
-        sr = await self.invoke_method_async(
-            "off", wait_for_result=True, wait_timeout=wait_timeout
-        )
-        if int(sr) == 1:
-            self.turned_on = False
-        return self.turned_on
-
-    def toggle(self, wait_timeout: Optional[int] = 5) -> bool:
-        if self.turned_on:
-            return self.turn_off(wait_timeout)
-        return self.turn_on(wait_timeout)
-
-    async def toggle_async(self, wait_timeout: Optional[int] = 5) -> bool:
-        if self.turned_on:
-            return await self.turn_off_async(wait_timeout)
-        return await self.turn_on_async(wait_timeout)
+    async def is_available_async(self):
+        """
+        Checks if the flashlight is available on the device.
+        """
+        r = await self._invoke_method_async("is_available")
+        if r is bool:
+            return r
+        else:  # error occured
+            error_msg = r.get("error_msg")
+            raise FlashlightException(error_msg)

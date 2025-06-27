@@ -8,10 +8,6 @@ A [Flet](https://flet.dev) extension to manage the device torch/flashlight.
 
 It is based on the [flashlight](https://pub.dev/packages/flashlight) Flutter package.
 
-## Documentation
-
-Detailed documentation to this package can be found [here](https://flet-dev.github.io/flet-flashlight/).
-
 ## Platform Support
 
 This package supports the following platforms:
@@ -25,22 +21,32 @@ This package supports the following platforms:
 | Android  |     ✅     |
 | Web      |     ❌     |
 
-## Installation
+## Usage
+
+### Installation
 
 To install the `flet-flashlight` package and add it to your project dependencies:
 
-- Using `uv`:
+=== "uv"
     ```bash
     uv add flet-flashlight
     ```
 
-- Using `pip`:
+=== "pip"
     ```bash
-    pip install flet-flashlight
+    pip install flet-flashlight  # (1)!
     ```
-    After this, you will have to manually add this package to your `requirements.txt` or `pyproject.toml`.
 
-- Using `poetry`:
+    1. After this, you will have to manually add this package to your `requirements.txt` or `pyproject.toml`.
+
+=== "poetry"
     ```bash
     poetry add flet-flashlight
     ```
+
+
+## Example
+
+```python title="main.py"
+--8<-- "examples/flashlight_example/src/main.py"
+``` 
