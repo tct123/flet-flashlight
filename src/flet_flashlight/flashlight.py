@@ -1,8 +1,17 @@
 import asyncio
+from typing import Optional
 
 import flet as ft
 
-from .exceptions import *
+from .exceptions import (
+    FlashlightDisableException,
+    FlashlightDisableExistentUserException,
+    FlashlightDisableNotAvailableException,
+    FlashlightEnableException,
+    FlashlightEnableExistentUserException,
+    FlashlightEnableNotAvailableException,
+    FlashlightException,
+)
 
 __all__ = ["Flashlight"]
 
@@ -10,10 +19,11 @@ __all__ = ["Flashlight"]
 @ft.control("Flashlight")
 class Flashlight(ft.Service):
     """
-    A control to use FlashLight. Works on iOS and Android. Based on torch_light Flutter widget (https://pub.dev/packages/torch_light).
+    A control to use FlashLight. Works on iOS and Android.
 
     Note:
-        This control is a non-visual and should be added to `page.services` list before it can be used.
+        This control is a non-visual and should be added
+        to [`Page.services`][flet.Page.services] list before it can be used.
     """
 
     on = False
@@ -21,11 +31,12 @@ class Flashlight(ft.Service):
     Whether the flashlight is currently turned on.
     """
 
-    on_error: ft.OptionalControlEventHandler["Flashlight"] = None
+    on_error: Optional[ft.ControlEventHandler["Flashlight"]] = None
     """
     Fires when an error occurs.
-    
-    The `data` property of the event handler argument contains information on the error.
+
+    The [`data`][flet.Event.data] property of the event handler argument
+    contains information on the error.
     """
 
     async def turn_on_async(self):

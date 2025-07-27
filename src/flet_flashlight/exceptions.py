@@ -1,3 +1,14 @@
+__all__ = [
+    "FlashlightDisableException",
+    "FlashlightDisableExistentUserException",
+    "FlashlightDisableNotAvailableException",
+    "FlashlightEnableException",
+    "FlashlightEnableExistentUserException",
+    "FlashlightEnableNotAvailableException",
+    "FlashlightException",
+]
+
+
 class FlashlightException(Exception):
     """
     Base class for all [`Flashlight`][(p).] exceptions.
