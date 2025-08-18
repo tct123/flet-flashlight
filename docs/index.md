@@ -44,9 +44,6 @@ To install the `flet-flashlight` package and add it to your project dependencies
     poetry add flet-flashlight
     ```
 
+### Examples
 
-## Example
-
-```python title="main.py"
---8<-- "examples/flashlight_example/src/main.py"
-``` 
+See [these](flashlight.md#examples).

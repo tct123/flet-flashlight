@@ -1,4 +1,3 @@
-import asyncio
 from typing import Optional
 
 import flet as ft
@@ -39,11 +38,11 @@ class Flashlight(ft.Service):
     contains information on the error.
     """
 
-    async def turn_on_async(self):
+    async def turn_on(self):
         """
         Turns the flashlight on.
         """
-        r = await self._invoke_method_async("on")
+        r = await self._invoke_method("on")
         if r is True:
             self.on = True
         else:  # error occured
@@ -56,17 +55,11 @@ class Flashlight(ft.Service):
             else:
                 raise FlashlightEnableException(error_msg)
 
-    def turn_on(self):
-        """
-        Turns the flashlight on.
-        """
-        asyncio.create_task(self.turn_on_async())
-
-    async def turn_off_async(self):
+    async def turn_off(self):
         """
         Turns the flashlight off.
         """
-        r = await self._invoke_method_async("off")
+        r = await self._invoke_method("off")
         if r is True:
             self.on = False
         else:  # error occured
@@ -79,32 +72,21 @@ class Flashlight(ft.Service):
             else:
                 raise FlashlightDisableException(error_msg)
 
-    def turn_off(self):
-        """
-        Turns the flashlight off.
-        """
-        asyncio.create_task(self.turn_off_async())
-
-    async def toggle_async(self):
+    async def toggle(self):
         """
         Toggles the flashlight on and off.
         """
         if self.on:
-            await self.turn_off_async()
-        await self.turn_on_async()
+            await self.turn_off()
+        else:
+            await self.turn_on()
 
-    def toggle(self):
-        """
-        Toggles the flashlight on and off.
-        """
-        asyncio.create_task(self.toggle_async())
-
-    async def is_available_async(self):
+    async def is_available(self):
         """
         Checks if the flashlight is available on the device.
         """
-        r = await self._invoke_method_async("is_available")
-        if r is bool:
+        r = await self._invoke_method("is_available")
+        if isinstance(r, bool):
             return r
         else:  # error occured
             error_msg = r.get("error_msg")

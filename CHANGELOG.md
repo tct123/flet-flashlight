@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 - Deployed online documentation: https://flet-dev.github.io/flet-flashlight/
 - `Flashlight` control new properties: `on`, `on_error`
-- `Flashlight` control new methods: `is_available_async`
+- `Flashlight` control new methods: `is_available`
 - New exception classes:
     - `FlashlightException`
     - `FlashlightEnableExistentUserException`
